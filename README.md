@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to 2d Java Game 👋</h1>
+<h1 align="center">Welcome to my 2d Java Game 👋</h1>
 <p>
   <a href="https://github.com/kefranabg/readme-md-generator#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -14,7 +14,8 @@
   </a>
 </p>
 
-> Small Java Game written by me :D
+> A small Java Adventure Type game written by me
+> Currently kinda missing all features to make a adventure game to a adventure game..
 
 
 ## Author
