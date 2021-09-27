@@ -9,7 +9,6 @@ public class InputHandler implements KeyListener {
     private boolean[] keys;
 
     public InputHandler() {
-        System.out.println("created");
         keys = new boolean[256];
     }
 
@@ -22,18 +21,15 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("typed");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         keys[e.getKeyCode()] = true;
-        System.out.println("pressed");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
-        System.out.println("no");
     }
 }

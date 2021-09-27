@@ -28,7 +28,7 @@ public class FPSLimiter {
         }
 
         if (timer >= 1000000000) {
-            System.out.println("Ticks and Frames: " + ticks);
+//            System.out.println("Ticks and Frames: " + ticks);
             ticks = 0;
             timer = 0;
         }

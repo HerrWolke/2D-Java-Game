@@ -1,7 +1,8 @@
 package de.mrcloud.entities.creatures;
 
+import de.mrcloud.Handler;
 import de.mrcloud.entities.Entity;
-import de.mrcloud.game.Game;
+import de.mrcloud.tiles.Tile;
 import de.mrcloud.utils.Coordinates;
 
 public abstract class Creature extends Entity {
@@ -15,8 +16,8 @@ public abstract class Creature extends Entity {
     protected float xMove, yMove;
 
 
-    public Creature(Game game, Coordinates coordinates, int health, int width, int height) {
-        super(game,coordinates, width, height);
+    public Creature(Handler handler, Coordinates coordinates, int health, int width, int height) {
+        super(handler, coordinates, width, height);
         this.health = health;
         this.speed = DEFAULT_SPEED;
         xMove = 0;
@@ -25,10 +26,57 @@ public abstract class Creature extends Entity {
 
 
     public void move() {
-        coordinates.addToX(xMove);
-        coordinates.addToY(yMove);
+        moveX();
+        moveY();
+
     }
 
+    public void moveX() {
+        //Checks if moving right or left
+        if (xMove > 0) {
+            int tx = (int) ((coordinates.getX() + xMove + bounds.x + bounds.width) / Tile.TILE_WIDTH);
+            if((!collisionWithTile(tx,(int) ((coordinates.getY()+bounds.y) / Tile.TILE_HEIGHT))) && !collisionWithTile(tx,(int) ((coordinates.getY()+bounds.y + bounds.height) / Tile.TILE_HEIGHT))) {
+                coordinates.addToX(xMove);
+            } else {
+                coordinates.setX(tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1);
+            }
+
+        } else if (xMove < 0) {
+            int tx = (int) ((coordinates.getX() + xMove + bounds.x) / Tile.TILE_WIDTH);
+            if((!collisionWithTile(tx,(int) ((coordinates.getY()+bounds.y) / Tile.TILE_HEIGHT))) && !collisionWithTile(tx,(int) ((coordinates.getY()+bounds.y + bounds.height) / Tile.TILE_HEIGHT))) {
+                coordinates.addToX(xMove);
+            } else {
+                coordinates.setX(tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - bounds.x);
+            }
+        }
+    }
+
+    public void moveY() {
+        //Checking if moving up or down
+        if(yMove < 0) {
+            int ty = (int) (coordinates.getY() + yMove + bounds.y) / Tile.TILE_HEIGHT;
+
+            if((!collisionWithTile((int) ((coordinates.getX() + bounds.x ) / Tile.TILE_WIDTH),ty))
+            && (!collisionWithTile((int) ((coordinates.getX() + bounds.x + bounds.width ) / Tile.TILE_WIDTH),ty))) {
+                coordinates.addToY(yMove);
+            } else {
+                coordinates.setY(ty * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT - bounds.y);
+            }
+        } else if ( yMove > 0) {
+            int ty = (int) (coordinates.getY() + yMove + bounds.y + bounds.height) / Tile.TILE_HEIGHT;
+
+            if((!collisionWithTile((int) ((coordinates.getX() + bounds.x ) / Tile.TILE_WIDTH),ty))
+                    && (!collisionWithTile((int) ((coordinates.getX() + bounds.x + bounds.width ) / Tile.TILE_WIDTH),ty))) {
+                coordinates.addToY(yMove);
+            } else {
+                coordinates.setY(ty * Tile.TILE_HEIGHT - bounds.y - bounds.height - 1);
+            }
+        }
+    }
+
+    protected boolean collisionWithTile(int x, int y) {
+        return handler.getWorld().getTile(x, y).isSolid();
+    }
 
     public int getHealth() {
         return health;

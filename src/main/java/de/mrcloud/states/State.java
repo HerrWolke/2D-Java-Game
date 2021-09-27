@@ -1,5 +1,6 @@
 package de.mrcloud.states;
 
+import de.mrcloud.Handler;
 import de.mrcloud.game.Game;
 
 import java.awt.*;
@@ -8,10 +9,12 @@ public abstract class State {
 
     private static State currentState = null;
 
+    protected Handler handler;
+
     protected Game game;
 
-    public State(Game game) {
-        this.game = game;
+    public State(Handler handler) {
+        this.handler = handler;
     }
 
     public static State getCurrentState() {

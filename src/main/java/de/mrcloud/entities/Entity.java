@@ -1,5 +1,6 @@
 package de.mrcloud.entities;
 
+import de.mrcloud.Handler;
 import de.mrcloud.game.Game;
 import de.mrcloud.gfx.AssetsContainer;
 import de.mrcloud.utils.Coordinates;
@@ -9,20 +10,23 @@ import java.awt.*;
 public abstract class Entity {
 
     protected Coordinates coordinates;
-    protected Game game;
+    protected Handler handler;
+    protected Rectangle bounds;
 
     protected int width, height;
 
-    public Entity(Game game, Coordinates coordinates, int width, int height) {
-        this.game = game;
+    public Entity(Handler handler, Coordinates coordinates, int width, int height) {
+        this.handler = handler;
         this.coordinates = coordinates;
         this.width = width;
         this.height = height;
+
+        bounds = new Rectangle(0,0,64,64);
     }
 
     public abstract void tick();
 
-    public abstract void render(Graphics graphics, AssetsContainer assets);
+    public abstract void render(Graphics graphics);
 
     public Coordinates getCoordinates() {
         return coordinates;

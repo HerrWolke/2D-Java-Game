@@ -1,6 +1,8 @@
 package de.mrcloud.game;
 
+import de.mrcloud.Handler;
 import de.mrcloud.gfx.AssetsContainer;
+import de.mrcloud.gfx.Camera;
 import de.mrcloud.handlers.InputHandler;
 import de.mrcloud.states.GameState;
 import de.mrcloud.states.MenuState;
@@ -13,18 +15,27 @@ import java.awt.image.BufferStrategy;
 
 public class Game implements Runnable {
 
-    public int width, height;
+    private int width, height;
     public String title;
     private Display display;
     private Thread gameThread;
     private boolean running = false;
     private AssetsContainer assets;
+
     private long ticks;
 
+    //Rendering
+    private Camera camera;
 
+    //States
     private State gameState;
     private State menuState;
+
+    //Input Handling
     private InputHandler inputHandler;
+
+    //Handler
+    private Handler handler;
 
 
     public Game(String title, int width, int height) {
@@ -37,16 +48,26 @@ public class Game implements Runnable {
 
         display = new Display(title, width, height);
         inputHandler = new InputHandler();
+
+        //For Input to be accepted
         display.getCanvas().setFocusable(true);
         display.getCanvas().addKeyListener(inputHandler);
+
+        handler = new Handler(this);
+
+
         assets = new AssetsContainer();
         assets.init();
         assets.initCharacters();
 
-        gameState = new GameState(this);
-        menuState = new MenuState(this);
+        camera = new Camera(handler,0,0);
+
+        gameState = new GameState(handler);
+        menuState = new MenuState(handler);
         State.setCurrentState(gameState);
     }
+
+
 
     private void tick() {
         inputHandler.tick();
@@ -112,6 +133,19 @@ public class Game implements Runnable {
 
     public long getTicks() {
         return ticks;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public InputHandler getInputHandler() {
