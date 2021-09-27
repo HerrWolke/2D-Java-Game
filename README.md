@@ -14,8 +14,8 @@
   </a>
 </p>
 
-A small Java Adventure Type game written by me
-Currently kinda missing all features to make a adventure game to a adventure game..
+> A small Java Adventure Type game written by me <br />
+> Currently kinda missing all features to make a adventure game to a adventure game..
 
 
 ## Author
